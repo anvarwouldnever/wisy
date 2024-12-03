@@ -1,10 +1,12 @@
 {
   "expo": {
+    "scheme": "mywisy",
     "name": "wisy",
     "slug": "wisy",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "newArchEnabled": true,
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -12,16 +14,47 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "requireFullScreen": true,
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anvarwouldnever3.wisy",
+      "associatedDomains": [
+        "applinks:mywisy.com"
+      ]
     },
+    "plugins": [
+      [
+        "expo-screen-orientation",
+        {
+          "initialOrientation": "DEFAULT"
+        }
+      ],
+      [
+        "expo-av",
+        {
+          "microphonePermission": "Allow MyWisy to access your microphone."
+        }
+      ]
+    ],
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.anvarwouldnever3.wisy"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "dd7ae79e-7335-4bec-a66d-67c539a76488"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/dd7ae79e-7335-4bec-a66d-67c539a76488"
     }
   }
 }
