@@ -13,7 +13,7 @@ import star from '../images/tabler_star-filled.png';
 import parent from '../images/tabler_accessible.png';
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import store from "../store/store";
-import arrow from '../images/arrow-left.png'
+import arrow from '../images/arrow-left.png';
 
 const GamesScreen = () => {
 
@@ -30,7 +30,6 @@ const GamesScreen = () => {
             changeScreenOrientation();
         }, [])
     );
-    
 
     const { height: windowHeight, width: windowWidth } = useWindowDimensions();
 

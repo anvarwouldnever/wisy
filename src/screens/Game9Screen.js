@@ -10,7 +10,8 @@ import { SvgUri } from 'react-native-svg';
 
 const Game9Screen = ({ data, setLevel }) => {
     
-    const images = data.content.images
+    let images = data.content.images
+    // console.log(images)
     const { height: windowHeight, width: windowWidth } = useWindowDimensions();
     const navigation = useNavigation();
 
@@ -45,10 +46,25 @@ const Game9Screen = ({ data, setLevel }) => {
     // ]
 
     const renderItem = ({ item }) => {
-        return (
-            <SvgUri uri={item.url} width={windowWidth * (64 / 800)} height={windowHeight * (64 / 360)}/>
-        )
-    }
+        const isSvg = item.url.endsWith('.svg');
+    
+        return isSvg ? (
+            <SvgUri 
+                uri={item.url} 
+                width={windowWidth * (64 / 800)} 
+                height={windowHeight * (64 / 360)} 
+            />
+        ) : (
+            <Image 
+                source={{ uri: item.url }} 
+                style={{ 
+                    width: windowWidth * (64 / 800), 
+                    height: windowHeight * (64 / 360) 
+                }} 
+                resizeMode="contain" 
+            />
+        );
+    };
 
     return (
         <View style={{top: 24, width: windowWidth - 60, height: windowHeight - 60, position: 'absolute', paddingTop: 50, flexDirection: 'row', justifyContent: 'center'}}>

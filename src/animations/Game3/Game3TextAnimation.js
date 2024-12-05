@@ -28,7 +28,7 @@ const Game3TextAnimation = ({ text, thinking }) => {
                 width: !thinking? windowWidth * (180 / 800) : windowWidth * (130 / 800),
                 height: 'auto',
                 alignSelf: 'flex-start',
-                backgroundColor: '#C4DF84',
+                backgroundColor: thinking? '#C4DF84' : text? '#C4DF84' : 'transparent',
                 borderTopRightRadius: 16,
                 borderTopLeftRadius: 16,
                 borderBottomRightRadius: 16,
@@ -48,25 +48,37 @@ const Game3TextAnimation = ({ text, thinking }) => {
             </Text>
             :
             <Lottie />}
-            <View style={styles.triangle} />
+            <View style={{
+                width: 0,
+                height: 0,
+                borderRightWidth: 16,     // Ширина треугольника (основание)
+                borderTopWidth: 8,        // Высота треугольника
+                borderRightColor: 'transparent',
+                borderTopColor: thinking? '#C4DF84' : text? '#C4DF84' : 'transparent',   // Цвет треугольника
+                borderLeftWidth: 0,
+                borderBottomWidth: 0,
+                position: 'absolute',
+                bottom: -8,
+                left: 0
+            }} />
         </Animated.View>
     );
 }
 
-const styles = StyleSheet.create({
-    triangle: {
-        width: 0,
-        height: 0,
-        borderRightWidth: 16,     // Ширина треугольника (основание)
-        borderTopWidth: 8,        // Высота треугольника
-        borderRightColor: 'transparent',
-        borderTopColor: '#C4DF84',   // Цвет треугольника
-        borderLeftWidth: 0,
-        borderBottomWidth: 0,
-        position: 'absolute',
-        bottom: -8,
-        left: 0
-    },
-});
+// const styles = StyleSheet.create({
+//     triangle: {
+//         width: 0,
+//         height: 0,
+//         borderRightWidth: 16,     // Ширина треугольника (основание)
+//         borderTopWidth: 8,        // Высота треугольника
+//         borderRightColor: 'transparent',
+//         borderTopColor: text? '#C4DF84' : '',   // Цвет треугольника
+//         borderLeftWidth: 0,
+//         borderBottomWidth: 0,
+//         position: 'absolute',
+//         bottom: -8,
+//         left: 0
+//     },
+// });
 
 export default Game3TextAnimation;

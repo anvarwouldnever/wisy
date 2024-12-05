@@ -13,7 +13,7 @@ const Game12Screen = ({ data, setLevel }) => {
 
     console.log(data)
     const { height: windowHeight, width: windowWidth } = useWindowDimensions();
-    const [text, setText] = useState('');
+    const [text, setText] = useState(data.question);
     const [attempt, setAttempt] = useState('1');
     const [thinking, setThinking] = useState(false);
     const sound = useRef(new Audio.Sound());
@@ -81,8 +81,6 @@ const Game12Screen = ({ data, setLevel }) => {
                 </View>
                 <View style={{width: windowWidth * (440 / 800), height: windowHeight * (144 / 360), justifyContent: 'space-between', alignItems: 'center'}}>
                     {data && data.content.options && data.content.options.map((option, index) => {
-
-                        console.log(option)
 
                         return (
                             <View key={index} style={{width: windowWidth * (440 / 800), height: windowHeight * (40 / 360), flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>

@@ -170,13 +170,13 @@ const GameScreen = (params) => {
         )
     }
 
-    // console.log(tasks[level].content.options)
+    console.log(tasks)
 
     return (
         <View style={{flex: 1}}>
             <ImageBackground source={bg} style={{flex: 1, alignItems: 'center', padding: 30, paddingVertical: Platform.isPad? windowWidth * (40 / 800) : Platform.OS === 'ios'? 25 : 25, width: windowWidth, height: windowHeight, justifyContent: 'space-between'}}>
             {
-                tasks[level] && tasks[level].type ? (
+                tasks && tasks[level] && tasks[level].type ? (
                     tasks[level].type === 'voice_input' ?  
                     <RenderVoiceGame /> :
                     tasks[level].type === 'single_choice' && tasks[level].content.sub_type === 'with_image'?

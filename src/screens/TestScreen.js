@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { View, useWindowDimensions, StyleSheet } from 'react-native';
 import Svg, { Line } from 'react-native-svg';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
-import Animated, { useSharedValue, useAnimatedProps, runOnJS, runOnUI } from 'react-native-reanimated';
+import Animated, { useSharedValue, useAnimatedProps, runOnJS } from 'react-native-reanimated';
 
 const AnimatedLine = Animated.createAnimatedComponent(Line);
 
@@ -10,8 +10,6 @@ const TestScreen = () => {
 
         const { height: windowHeight, width: windowWidth } = useWindowDimensions();
         const [lines, setLines] = useState([])
-        const linesRef = []
-        const [lineStart, setLineStart] = useState(false);
         const lineStartX = useSharedValue(0);
         const lineStartY = useSharedValue(0);
         const lineEndX = useSharedValue(0);
@@ -19,45 +17,19 @@ const TestScreen = () => {
     
         const containerOffset = { top: 35, left: 200 }; // Смещение контейнера
 
-        const updateArray = (data) => {
-            setLines(prev => [...prev, data])
-        }
-
         const animatedProps = useAnimatedProps(() => ({
             x1: lineStartX.value,
             y1: lineStartY.value,
             x2: lineEndX.value,
             y2: lineEndY.value,
         }));
-    
-        const gesture = Gesture.Pan()
-            .onBegin((event) => {
-                lineStartX.value = event.absoluteX;
-                lineStartY.value = event.absoluteY;
-                lineEndX.value = event.absoluteX;
-                lineEndY.value = event.absoluteY;
-                runOnJS(setLineStart)(true)
-            })
-            .onUpdate((event) => {
-                lineEndX.value = event.absoluteX
-                lineEndY.value = event.absoluteY
-                runOnJS(setLineStart)(true)
-            })
-            .onEnd((event) => {
-                runOnJS(updateArray)({
-                    x1: lineStartX.value,
-                    y1: lineStartY.value,
-                    x2: lineEndX.value,
-                    y2: lineEndY.value
-                })
-            })
 
             const images = [{}, {}, {}]
-            const options = [{}, {}, {}, {}, {}, {}]
+            const options = [{key: '1'}, {key: '2'}, {key: '3'}, {key: '4'}, {key: '5'}, {key: '6'}]
 
             return (
                     <View style={{ flex: 1 }}>
-                        <Svg disabled={false} style={{ position: 'absolute', width: '100%', height: '100%'}}>
+                        <Svg onResponderMove={() => {}} style={{ position: 'absolute', width: '100%', height: '100%'}}>
                         {lines && lines.length > 0 && lines.map((line, index) => (
                             <Line
                                 key={index}
@@ -86,11 +58,36 @@ const TestScreen = () => {
                                     )
                                 })}
                             </View>
-                            <View style={{width: windowWidth * (160 / 800), height: windowHeight * (300 / 360), alignItems: 'center', justifyContent: 'space-between', flexDirection: 'column'}}>
+                            <View style={{width: windowWidth * (160 / 800), height: windowHeight * (300 / 360), alignItems: 'center', justifyContent: 'space-between', flexDirection: 'column', overflow: 'visible'}}>
                                 {options.map((item, index) => {
+
+                                    const updateArray = (data) => {
+                                        setLines(prev => [...prev, data])
+                                    }
+
+                                    const gesture = Gesture.Pan()
+                                        .onBegin((event) => {
+                                            console.log('tapped')
+                                            lineStartX.value = event.absoluteX;
+                                            lineStartY.value = event.absoluteY;
+                                            lineEndX.value = event.absoluteX;
+                                            lineEndY.value = event.absoluteY;
+                                        })
+                                        .onUpdate((event) => {
+                                            lineEndX.value = event.absoluteX
+                                            lineEndY.value = event.absoluteY
+                                        })
+                                        .onEnd((event) => {
+                                            runOnJS(updateArray)({
+                                                x1: lineStartX.value,
+                                                y1: lineStartY.value,
+                                                x2: lineEndX.value,
+                                                y2: lineEndY.value
+                                            })
+                                        })
                 
                                     return (
-                                        <GestureDetector key={index} gesture={gesture}>
+                                        <GestureDetector key={item.key} gesture={gesture}>
                                             <View style={{width: windowWidth * (160 / 800), height: windowHeight * (40 / 360), backgroundColor: 'white', borderRadius: 10}}>
                                                 
                                             </View>
