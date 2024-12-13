@@ -52,7 +52,7 @@ const GamesCollections = ({ setSubCollections, subCollections, setName, activeCa
         return (
             <Animated.View entering={FadeInRight} style={{ width: 'auto', height: 'auto' }}>
                 <TouchableOpacity 
-                    onPress={() => navigation.navigate('TestScreen')}
+                    onPress={() => navigation.navigate('GameScreen', { tasks: item.tasks })}
                     style={{
                         backgroundColor: '#D8F6FF33', 
                         borderRadius: 12, 

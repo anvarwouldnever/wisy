@@ -28,7 +28,7 @@ class Api {
             if (response.data.token) {
                 const token = response.data.token
                 const children = await this.getChildren()
-                // console.log(response.data.token) 
+                console.log(token) 
                 return {token, children}
             }
         } catch (error) {
@@ -166,7 +166,7 @@ class Api {
     async sendMessage(message: any) {
         try {
             const data = new URLSearchParams();
-            data.append('api_key', 'ak-spObo94CedJ55g6ahkO8M-e4-alhISHGIxS_n15PIFk');
+            data.append('api_key', 'ak-XYBLLTLZwjxI7Wwui8XTnTfnzXj_8f1NCgfHn4fAfPA');
             data.append('conversation_id', 'cv-XTMVtDK2TYhRyj7R3ZTyuoJSNZd8XYPcuYqHMQAvkgw');
             data.append('language', 'ru');
             data.append('model', 'gpt-4o');
@@ -190,7 +190,7 @@ class Api {
         try {
             const response = await axios.get('https://aimywisy.hostweb.uz/api/v1/conversation/messages', {
                 params: {
-                    api_key: 'ak-spObo94CedJ55g6ahkO8M-e4-alhISHGIxS_n15PIFk',
+                    api_key: 'ak-XYBLLTLZwjxI7Wwui8XTnTfnzXj_8f1NCgfHn4fAfPA',
                     conversation_id: 'cv-XTMVtDK2TYhRyj7R3ZTyuoJSNZd8XYPcuYqHMQAvkgw'
                 }
             });

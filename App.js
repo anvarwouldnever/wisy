@@ -31,6 +31,7 @@ import Game9Screen from './src/screens/Game9Screen';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import GameScreen from './src/screens/GameScreen';
 import SvgPathExtractor from './src/screens/TestScreen';
+import Game14Screen from './src/screens/Game14Screen';
 
 const Stack = createStackNavigator();
 
@@ -95,7 +96,7 @@ const App = () => {
           <Stack.Screen name="ParentsSegments" component={ParentsSegments} />
           <Stack.Screen name="TextToSpeech" component={TextToSpeech} />
           <Stack.Screen name="GameScreen" component={GameScreen} />
-          {/* <Stack.Screen name="Game1Screen" component={Game1Screen} />
+          <Stack.Screen name="Game1Screen" component={Game1Screen} />
           <Stack.Screen name="Game2Screen" component={Game2Screen} />
           <Stack.Screen name="Game3Screen" component={Game3Screen} />
           <Stack.Screen name="Game4Screen" component={Game4Screen} />
@@ -103,7 +104,8 @@ const App = () => {
           <Stack.Screen name="Game6Screen" component={Game6Screen} />
           <Stack.Screen name="Game7Screen" component={Game7Screen} />
           <Stack.Screen name="Game8Screen" component={Game8Screen} />
-          <Stack.Screen name="Game9Screen" component={Game9Screen} /> */}
+          <Stack.Screen name="Game9Screen" component={Game9Screen} />
+          <Stack.Screen name="Game14Screen" component={Game14Screen} />
           <Stack.Screen name="TestScreen" component={SvgPathExtractor} />
         </Stack.Navigator>
       </NavigationContainer>

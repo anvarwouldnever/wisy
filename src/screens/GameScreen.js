@@ -1,9 +1,9 @@
 import { View, TouchableOpacity, Text, Image, useWindowDimensions, Platform, ImageBackground } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import store from '../store/store'
 import Game1Screen from './Game1Screen'
 import { useNavigation } from '@react-navigation/native'
-import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated'
+import Animated, { useAnimatedStyle, withTiming, withSpring, withSequence, useSharedValue } from 'react-native-reanimated'
 import narrowleft from '../images/narrowleft-purple.png'
 import star from '../images/Star.png'
 import bg from '../images/bgg.png'
@@ -19,6 +19,8 @@ import Game10Screen from './Game10Screen'
 import Game11Screen from './Game11Screen'
 import Game12Screen from './Game12Screen'
 import Game13Screen from './Game13Screen'
+import statStar from '../images/tabler_star-filled.png';
+import CongratulationsScreen from './CongratulationsScreen'
 
 const GameScreen = (params) => {
 
@@ -170,7 +172,16 @@ const GameScreen = (params) => {
         )
     }
 
-    console.log(tasks)
+    const StarStats = () => {
+        return (
+            <Animated.View onLayout={(event) => handleLayout(event)} style={[animatedStyle, {position: 'absolute', right: 30, top: 30, backgroundColor: 'white', width: windowWidth * (75 / 800), height: Platform.isPad? windowWidth * (40 / 800) : windowHeight * (40 / 360), borderRadius: 100, flexDirection: 'row', justifyContent: 'space-evenly'}]}>
+                <Image source={statStar} style={{width: windowWidth * (24 / 800), height: Platform.isPad? windowWidth * (24 / 800) : windowHeight * (24 / 360), aspectRatio: 24 / 24, alignSelf: 'center'}}/>
+                <Text style={{fontWeight: '600', fontSize: windowWidth * (20 / 800), color: 'black', textAlign: 'center', alignSelf: 'center'}}>{stars}</Text>
+            </Animated.View>
+        )
+    }
+
+    // console.log(tasks)
 
     return (
         <View style={{flex: 1}}>
@@ -200,14 +211,11 @@ const GameScreen = (params) => {
                     tasks[level].type === 'text_single_choice' && tasks[level].content.options[0].audio === null && tasks[level].content.options[0].text != ""?
                     <RenderTextSingleChoiceSimpleGame /> : 
                     tasks[level].type === 'text_single_choice' && tasks[level].content.options[0].audio != null || tasks[level].content.options[0].text.includes(" ")?
-                    <RenderTextSingleChoiceWithAudioGame /> :
-                    <View style={{flex: 1}}>
-                        <Text>нет игр</Text>
-                    </View>
-                ) : null
+                    <RenderTextSingleChoiceWithAudioGame /> : <CongratulationsScreen />
+                ) : <CongratulationsScreen />
             }
                 <BackButton />
-                <ProgressAnimation />
+                {tasks && tasks[level] && tasks[level].type && <ProgressAnimation />}
             </ImageBackground>
         </View>
     )

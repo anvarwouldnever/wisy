@@ -2,16 +2,13 @@ import { View, Text, Platform, useWindowDimensions, Image, FlatList, PanResponde
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import wisy from '../images/pandaHead.png'
-import petux from '../images/petushara.png'
-import delfin from '../images/delfin.png'
-import pes from '../images/pes.png'
 import { Svg, Polyline } from 'react-native-svg';
 import { SvgUri } from 'react-native-svg';
 
 const Game9Screen = ({ data, setLevel }) => {
     
     let images = data.content.images
-    // console.log(images)
+    console.log(data)
     const { height: windowHeight, width: windowWidth } = useWindowDimensions();
     const navigation = useNavigation();
 
@@ -80,7 +77,21 @@ const Game9Screen = ({ data, setLevel }) => {
                 </View>
                 <View style={{alignItems: 'center', justifyContent: 'space-between', flexDirection: 'row', width: windowWidth * (292 / 800), height: windowHeight * (115 / 360)}}>
                     <View style={{width: windowWidth * (115 / 800), height: windowHeight * (115 / 360), backgroundColor: 'white', borderRadius: 10, alignItems: 'center', justifyContent: 'center'}}>
-                        <Image source={pes} style={{width: windowWidth * (80 / 800), height: windowHeight * (80 / 360)}}/>
+                        {data.content.question_image.endsWith('.svg') ? (
+                            <SvgUri 
+                                uri={data.content.question_image} 
+                                width={windowWidth * (80 / 800)} 
+                                height={windowHeight * (80 / 360)} 
+                            />
+                        ) : (
+                            <Image 
+                                source={{ uri: data.content.question_image }} 
+                                style={{
+                                    width: windowWidth * (80 / 800), 
+                                    height: windowHeight * (80 / 360)
+                                }}
+                            />
+                        )}
                     </View>
                     <Text style={{fontSize: 40, fontWeight: '600', color: '#504297'}}>=</Text>
                     <View

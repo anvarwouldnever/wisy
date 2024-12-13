@@ -19,6 +19,7 @@ const AuthSignup = ({ proceed, toggleOption }) => {
         try {
             setLoading(true)
             const requestStatus = await api.signUp(email, password)
+            console.log(requestStatus)
             if (requestStatus === true) {
                 proceed()
             } else if(requestStatus === 'The email field must be a valid email address.') {

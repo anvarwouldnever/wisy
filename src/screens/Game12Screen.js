@@ -11,7 +11,7 @@ import { playSound } from '../hooks/usePlayBase64Audio';
 
 const Game12Screen = ({ data, setLevel }) => {
 
-    console.log(data)
+    console.log(data.content)
     const { height: windowHeight, width: windowWidth } = useWindowDimensions();
     const [text, setText] = useState(data.question);
     const [attempt, setAttempt] = useState('1');
@@ -26,11 +26,11 @@ const Game12Screen = ({ data, setLevel }) => {
 
     const voice = async (audio) => {
         try {
+            sound.current.unloadAsync();
             store.setPlayingMusic(false);
             await sound.current.loadAsync({ uri: audio });
             await sound.current.playAsync();
-    
-            // Устанавливаем проверку окончания воспроизведения
+
             sound.current.setOnPlaybackStatusUpdate((status) => {
                 if (status.didJustFinish) {
                     store.setPlayingMusic(true);
@@ -99,7 +99,7 @@ const Game12Screen = ({ data, setLevel }) => {
     }
 
     return (
-        <Animated.View entering={ZoomInEasyDown} style={{top: 24, width: windowWidth - 60, height: windowHeight - 60, position: 'absolute', paddingTop: 50, flexDirection: 'row', justifyContent: 'center'}}>
+        <Animated.View style={{top: 24, width: windowWidth - 60, height: windowHeight - 60, position: 'absolute', paddingTop: 50, flexDirection: 'row', justifyContent: 'center', backgroundColor: 'transparent'}}>
             <RenderGame12Component />
             <View style={{width: windowWidth * (255 / 800), position: 'absolute', left: 0, bottom: 0, height: Platform.isPad? windowWidth * (150 / 800) : windowHeight * (80 / 360), alignSelf: 'flex-end', alignItems: 'flex-end', flexDirection: 'row'}}>
                 <Image source={wisy} style={{width: windowWidth * (64 / 800), height: Platform.isPad? windowWidth * (64 / 800) : windowHeight * (64 / 360), aspectRatio: 64 / 64}}/>

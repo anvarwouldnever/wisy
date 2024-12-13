@@ -9,6 +9,7 @@ import store from '../store/store'
 
 const Game13Screen = ({ data, setLevel }) => {
 
+    console.log(data.content)
     const { height: windowHeight, width: windowWidth } = useWindowDimensions();
     const [text, setText] = useState('');
     const [attempt, setAttempt] = useState('1');

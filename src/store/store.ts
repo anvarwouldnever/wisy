@@ -201,9 +201,10 @@ class Store {
     async setToken(token: string) {
         runInAction(() => {
             this.token = token;
-        });
+        })
         if (token !== null) {
             await AsyncStorage.setItem('token', JSON.stringify(token));
+            //console.log(token)
         } else {
             await AsyncStorage.removeItem('token');
         }
