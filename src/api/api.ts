@@ -12,6 +12,7 @@ class Api {
                 password: password
             })
             if (response.data.is_success) {
+                console.log(response.data)
                 return true
             }
         } catch (error) {
@@ -72,7 +73,7 @@ class Api {
         return response.data
     }
 
-    async getCategories(token: string) {
+    async getCategories(data: any) {
         try {
             const response = await axios.get(`${this.baseUrl}/categories`, {
                 headers: {
@@ -85,14 +86,15 @@ class Api {
         }
     }
 
-    async getCollections(id: any) {
+    async getCollections(data: any) {
         try {
             const response = await axios.get(`${this.baseUrl}/collections`, {
                 headers: {
                     Authorization: `Bearer 226|COejlHeehtyv7i4F3hlhJ6QKCm1D5ddxN57VF38yd6dd67a1`,
                 },
                 params: {
-                    category_id: id.id
+                    category_id: data.id,
+                    child_id: data.child_id.id
                 }
             })
             return response.data
@@ -101,14 +103,15 @@ class Api {
         }
     }
 
-    async getSubCollections(id: any) {
+    async getSubCollections(data: any) {
         try {
             const response = await axios.get(`${this.baseUrl}/sub-collections`, {
                 headers: {
                     Authorization: `Bearer 226|COejlHeehtyv7i4F3hlhJ6QKCm1D5ddxN57VF38yd6dd67a1`,
                 },
                 params: {
-                    collection_id: id.id
+                    collection_id: data.id,
+                    child_id: data.child_id.id
                 }
             })
             return response.data
@@ -218,6 +221,36 @@ class Api {
             return response.data
         } catch (error) {
             console.log(error.response.data.message)
+        }
+    }
+
+    async answerHandWritten(answer: any) {
+        try {
+                console.log(answer.images)
+                const formData = new FormData();
+                formData.append('task_id', `${answer.task_id}`);
+                formData.append('attempt', `${answer.attempt}`);
+                formData.append('child_id', `${answer.child_id}`);
+                formData.append('images[0]', answer.images[0]);
+
+                // answer.images.forEach((image: any, index: number) => {
+                //     formData.append(`images[${index}]`, {
+                //         uri: image.uri,       // URI изображения
+                //         name: `image_${index}.png`, // Имя файла
+                //         type: 'image/png',    // MIME-тип файла
+                //     });
+                // });
+
+                const response = await axios.post(`${this.baseUrl}/tasks/answer`, formData, {
+                    headers: {
+                        Authorization: `Bearer 226|COejlHeehtyv7i4F3hlhJ6QKCm1D5ddxN57VF38yd6dd67a1`,
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                })
+                console.log(response.data)
+                return response.data
+        } catch (error) {
+            console.log(error.response)
         }
     }
 }

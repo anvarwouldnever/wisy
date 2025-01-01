@@ -6,21 +6,28 @@ import * as Haptics from 'expo-haptics'
 import StarsLottie from '../components/StarsLottie';
 import ConfettiLottie from '../components/ConfettiLottie';
 import StarStats from '../components/StarStats';
+import store from '../store/store';
 
-const CongratulationsScreen = () => {
+const CongratulationsScreen = ({ onComplete, stars: starsText }) => {
+    
+    const stars = Array.from({ length: parseInt(starsText, 10) }, (_, index) => ({
+        id: index + 1,
+    }));
     
     const { height: windowHeight, width: windowWidth } = useWindowDimensions();
     const [numStars, setNumStars] = useState(0)
 
     const [layoutCaptured, setLayoutCaptured] = useState();
 
-    const stars = [{id: 1}, {id: 2}, {id: 3}]
+    useEffect(() => {
+        onComplete(stars.length);
+    }, [])
 
     const starsContainerOpacity = useSharedValue(1) 
 
     const animatedValues = useRef(stars.map(() => ({
-        x: useSharedValue(windowWidth * (507 / 800)),
-        y: useSharedValue(windowHeight * (134 / 360))
+        x: useSharedValue(Platform.isPad? windowWidth * (506 / 800) : windowWidth * (507 / 800)),
+        y: useSharedValue(Platform.isPad? windowHeight * (135 / 360) : windowHeight * (134 / 360))
     })));
 
     const Nums = () => {
@@ -59,25 +66,25 @@ const CongratulationsScreen = () => {
             <ConfettiLottie />
             <Animated.View entering={BounceIn.delay(800).duration(700)}
                 style={{
-                    top: windowHeight * (40 / 360),
+                    top: Platform.isPad? windowHeight * (80 / 360) : windowHeight * (40 / 360),
                     position: 'absolute',
                     backgroundColor: 'white',
                     width: windowWidth * (260 / 800),
-                    height: windowHeight * (250 / 360),
+                    height: Platform.isPad? windowWidth * (250 / 800) : windowHeight * (250 / 360),
                     alignSelf: 'center',
                     borderRadius: 20,
                     flexDirection: 'row',
                 }}
             >
                 <StarsLottie stars={stars}/>
-                <Animated.View entering={BounceIn.delay(1700).duration(800).springify(400)} style={[starsContainerStyle, {width: 75, height: 40, backgroundColor: '#B3ABDB', position: 'absolute', borderRadius: 100, alignSelf: 'flex-end', gap: 1, top: '35%', right: -40, flexDirection: 'column', justifyContent: 'center', paddingHorizontal: 10}]}>
+                <Animated.View entering={BounceIn.delay(1700).duration(800).springify(400)} style={[starsContainerStyle, {width: 75, height: 40, backgroundColor: '#B3ABDB', position: 'absolute', borderRadius: 100, alignSelf: 'flex-end', gap: 1, top: Platform.isPad? '35%' : '35%', right: -40, flexDirection: 'column', justifyContent: 'center', paddingHorizontal: 10}]}>
                     <Text style={{fontWeight: '600', color: 'white', fontSize: 23, textAlign: 'center', alignSelf: 'flex-end'}}>+{`${stars.length}`}</Text>
                 </Animated.View>
-                <View style={{width: windowWidth * (212 / 800), height: windowHeight * (60 / 360), position: 'absolute', alignSelf: 'center', left: '10%', justifyContent: 'space-between', padding: 4}}>
+                <View style={{width: windowWidth * (212 / 800), height: Platform.isPad? windowWidth * (60 / 800) : windowHeight * (60 / 360), position: 'absolute', alignSelf: 'center', left: '10%', justifyContent: 'space-between', padding: 4}}>
                     <Text style={{fontSize: windowWidth * (20 / 800), fontWeight: '600', color: '#222222', alignSelf: 'center'}}>Congratulations!</Text>
                     <Text style={{fontSize: windowWidth * (14 / 800), fontWeight: '400', color: '#222222', alignSelf: 'center'}}>You’ve just earned {`${stars.length}`} stars!!</Text>
                 </View>
-                <TouchableOpacity style={{width: windowWidth * (212 / 800), height: windowHeight * (40 / 360), position: 'absolute', backgroundColor: '#504297', bottom: windowHeight * (30 / 360), borderRadius: 100, alignSelf: 'center', left: '10%', paddingHorizontal: 16, justifyContent: 'center'}}>
+                <TouchableOpacity style={{width: windowWidth * (212 / 800), height: Platform.isPad? windowWidth * (40 / 800) : windowHeight * (40 / 360), position: 'absolute', backgroundColor: '#504297', bottom: Platform.isPad? windowWidth * (30 / 800) : windowHeight * (30 / 360), borderRadius: 100, alignSelf: 'center', left: '10%', paddingHorizontal: 16, justifyContent: 'center'}}>
                     <Text style={{fontSize: windowWidth * (12 / 800), fontWeight: '600', color: 'white'}}>Continue</Text>
                 </TouchableOpacity>
             </Animated.View>
@@ -86,11 +93,11 @@ const CongratulationsScreen = () => {
                     <Animated.Image
                         key={index}
                         entering={FadeIn.delay(1700)}
-                        source={star} // Убедитесь, что starImage определен
+                        source={star}
                         style={[animatedStyles[index],
                             {
-                                width: 24,
-                                height: 24,
+                                width: Platform.isPad? windowHeight * (20 / 360) : windowWidth * (20 / 800),
+                                height: Platform.isPad? windowHeight * (20 / 800) : windowHeight * (20 / 360),
                                 resizeMode: 'contain',
                                 alignSelf: 'center',
                                 position: 'absolute',

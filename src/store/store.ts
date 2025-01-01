@@ -1,4 +1,4 @@
-import { makeAutoObservable, runInAction } from "mobx";
+import { autorun, makeAutoObservable, runInAction } from "mobx";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NetInfo from '@react-native-community/netinfo';
 import api from '../api/api';
@@ -16,16 +16,23 @@ class Store {
     categories = [];
     collections = [];
     messages = [];
+    language = 'en'
 
     constructor() {
         makeAutoObservable(this);
         this.initializeStore();
+
+        autorun(() => {
+            if (this.connectionState && this.playingChildId !== null) {
+                this.loadCategories();
+            }
+        });
     }
 
     async initializeStore() {
         await this.determineConnection()
         await this.loadData()
-        await this.loadCategories()
+        // await this.loadCategories()
         // await this.loadDataGame1()
         // await this.loadMessages()
     }
@@ -70,7 +77,7 @@ class Store {
     async loadCategories() {
         if (this.connectionState) {
             try {
-                const request = await api.getCategories();
+                const request = await api.getCategories({ child_id: this.playingChildId });
     
                 // Сохраняем категории в `this.categories`
                 runInAction(() => {
@@ -93,12 +100,12 @@ class Store {
             try {
                 // Создаём массив запросов для загрузки коллекций по каждой категории
                 const collectionsRequests = this.categories.map(async (category) => {
-                    const collectionsResponse = await api.getCollections({ id: category.id });
+                    const collectionsResponse = await api.getCollections({ id: category.id, child_id: this.playingChildId });
     
                     // Загружаем подколлекции и задачи для каждой коллекции
                     const collectionsWithSubCollections = await Promise.allSettled(
                         collectionsResponse.data.map(async (collection) => {
-                            const subCollectionsResponse = await api.getSubCollections({ id: collection.id });
+                            const subCollectionsResponse = await api.getSubCollections({ id: collection.id, child_id: this.playingChildId });
     
                             const subCollectionsWithTasks = await Promise.allSettled(
                                 subCollectionsResponse.data.map(async (subCollection) => {
@@ -140,10 +147,6 @@ class Store {
             }
         }
     }
-    
-    
-    
-    
 
     async loadMessages() {
         if (this.connectionState) {
@@ -198,6 +201,28 @@ class Store {
         });
     }
 
+    async completeGame(collectionId: any, subCollectionId: any, earnedStars: number) {
+        try {
+            const collection = this.categories[collectionId].collections;
+            for (let i = 0; i < collection.length; i++) {
+                const subCollection = collection[i].sub_collections.find(sub => sub.id === subCollectionId);
+                
+                if (subCollection) {
+                    runInAction(() => {
+                        subCollection.current_task_id = null;
+                        subCollection.stars.earned = earnedStars;
+                    });
+                    break;
+                }
+            }
+    
+        } catch (error) {
+            console.error("Ошибка завершения игры:", error);
+        }
+    }
+    
+    
+
     async setToken(token: string) {
         runInAction(() => {
             this.token = token;
@@ -232,6 +257,12 @@ class Store {
     async setMicroOn(bool: boolean) {
         runInAction(() => {
             this.microOn = bool;
+        });
+    }
+
+    async setLanguage(language: string) {
+        runInAction(() => {
+            this.language = language;
         });
     }
 

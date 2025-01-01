@@ -1,6 +1,6 @@
 import LottieView from "lottie-react-native"
 import { useRef, useEffect } from "react";
-import { useWindowDimensions } from "react-native";
+import { Platform, useWindowDimensions } from "react-native";
 import confetti from '../lotties/confett.json'
 
 const ConfettiLottie = () => {
@@ -26,7 +26,7 @@ const ConfettiLottie = () => {
         <LottieView
             ref={confettiRef} 
             source={confetti}
-            style={{ width: windowWidth, height: windowHeight }}
+            style={{ width: windowWidth, height: windowHeight, transform: [{ scale: Platform.isPad? 3 : 1.5 }] }}
             resizeMode='center'
             autoPlay={true}
             loop={false}

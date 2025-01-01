@@ -23,9 +23,9 @@ const Animals1Animation = ({ answer, images, animal }) => {
                 justifyContent: 'center', alignItems: 'center', borderWidth: 2, borderColor: 'white'
             }}>
                 {isSvg ? (
-                    <SvgUri uri={item.url} style={{ width: windowWidth * (108 / 800), height: Platform.isPad ? windowWidth * (108 / 800) : windowHeight * (108 / 360), aspectRatio: 1 }} />
+                    <SvgUri uri={item.url} width={Platform.isPad? windowWidth * (100 / 800) : windowWidth * (100 / 800)} height={Platform.isPad? windowWidth * (100 / 800) : windowHeight * (100 / 360)} style={{ width: windowWidth * (108 / 800), height: Platform.isPad ? windowWidth * (108 / 360) : windowHeight * (108 / 360), aspectRatio: 1 }} />
                 ) : (
-                    <Image source={{ uri: item.url }} style={{ width: windowWidth * (108 / 800), height: Platform.isPad ? windowWidth * (108 / 800) : windowHeight * (108 / 360), aspectRatio: 1 }} />
+                    <Image source={{ uri: item.url }} style={{ width: Platform.isPad? windowWidth * (100 / 800) : windowWidth * (100 / 800), height: Platform.isPad ? windowWidth * (100 / 800) : windowHeight * (100 / 360), aspectRatio: 1 }} />
                 )}
                 {item.name === 'monkey' && <Image source={passedimg} style={{ width: windowWidth * (24 / 800), height: Platform.isPad ? windowWidth * (24 / 800) : windowHeight * (24 / 360), position: 'absolute', right: 4, top: 4 }} />}
             </TouchableOpacity>
@@ -33,7 +33,7 @@ const Animals1Animation = ({ answer, images, animal }) => {
     };
 
     return (
-            <Animated.View key={key} entering={ZoomInEasyDown.duration(400)} style={{width: windowWidth * (664 / 800), height: Platform.isPad? windowWidth * (228 / 800) : windowHeight * (228 / 360), position: 'absolute', top: windowHeight * (46 / 360), alignSelf: 'center', alignItems: 'center', flexDirection: 'column', justifyContent: 'space-between'}}>
+            <Animated.View key={key} entering={ZoomInEasyDown.duration(400)} style={{width: windowWidth * (664 / 800), height: Platform.isPad? windowWidth * (228 / 800) : windowHeight * (228 / 360), position: 'absolute', alignSelf: 'center', alignItems: 'center', flexDirection: 'column', justifyContent: 'space-between'}}>
                 <View style={{width: windowWidth * (192 / 800), height: Platform.isPad? windowWidth * (52 / 800) : windowHeight * (52 / 360), borderRadius: 100, backgroundColor: 'white', justifyContent: 'center', alignItems: 'center'}}>
                     <Text style={{color: '#222222', fontSize: Platform.isPad? windowWidth * (20 / 800) : windowHeight * (20 / 360), fontWeight: '500', textAlign: 'center'}}>{animal}</Text>
                 </View> 

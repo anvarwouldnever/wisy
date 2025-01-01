@@ -14,7 +14,7 @@ import store from '../store/store';
 
 const Game1Screen = ({ data, setLevel }) => {
 
-    console.log(data)
+    // console.log(data)
 
     const navigation = useNavigation();
     const { height: windowHeight, width: windowWidth } = useWindowDimensions();
@@ -69,7 +69,7 @@ const Game1Screen = ({ data, setLevel }) => {
 
     return (
         <View style={{top: 24, width: windowWidth - 60, height: windowHeight - 60, position: 'absolute', paddingTop: 50}}>
-            <View source={bg} style={{flex: 1, alignItems: 'center', justifyContent: 'space-between', paddingTop: 50}}>
+            <View source={bg} style={{flex: 1, alignItems: 'center', justifyContent: 'space-between', paddingTop: 50, justifyContent: Platform.isPad? 'center' : ''}}>
                 {data && <TaskComponent image={image === 1? data.content.placeholder_image.url : data.content.image.url} successImage={image}/>}
                     <View style={{width: windowWidth * (255 / 800), height: Platform.isPad? windowWidth * (150 / 800) : windowHeight * (150 / 360), alignItems: 'flex-end', flexDirection: 'row', position: 'absolute', left: 0, bottom: 0}}>
                         <Image source={wisy} style={{width: windowWidth * (64 / 800), height: Platform.isPad? windowWidth * (64 / 800) : windowHeight * (64 / 360), aspectRatio: 64 / 64}}/>

@@ -26,17 +26,17 @@ const MicroAnimation = ({ sendAnswer, correctAnswer, incorrectAnswerToNext, inco
         setMicroOn(false)
         const uri = await stopRecording()
         const requestStatus = await sendAnswer(uri)
-        playSound(requestStatus.sound)
-        if (requestStatus.to_next && requestStatus.success) {
+        playSound(requestStatus?.sound)
+        if (requestStatus?.to_next && requestStatus?.success) {
             correctAnswer(requestStatus.hint)
         } 
         else if (requestStatus.to_next && !requestStatus.success) {
-            incorrectAnswerToNext(requestStatus.hint)
+            incorrectAnswerToNext(requestStatus?.hint)
         } 
-        else if (!requestStatus.to_next && !requestStatus.success && requestStatus.next_attempt) {
-            incorrectAnswer(requestStatus.hint, requestStatus.next_attempt)
+        else if (!requestStatus.to_next && !requestStatus.success && requestStatus?.next_attempt) {
+            incorrectAnswer(requestStatus?.hint, requestStatus?.next_attempt)
         } else {
-            setText(requestStatus)
+            setText(requestStatus?.hint)
         }
     }
 

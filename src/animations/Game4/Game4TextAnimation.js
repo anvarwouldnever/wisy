@@ -32,7 +32,7 @@ const Game4TextAnimation = ({ text, thinking }) => {
                 borderTopRightRadius: 16,
                 borderTopLeftRadius: 16,
                 borderBottomRightRadius: 16,
-                padding: windowHeight * (12 / 360),
+                padding: Platform.isPad? windowWidth * (12 / 800) : windowHeight * (12 / 360),
                 marginLeft: 10
             }}
         >

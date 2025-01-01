@@ -7,9 +7,9 @@ import api from '../api/api'
 import { playSound } from '../hooks/usePlayBase64Audio'
 import store from '../store/store'
 
-const Game13Screen = ({ data, setLevel }) => {
+const Game13Screen = ({ data, setLevel, setStars }) => {
 
-    console.log(data.content)
+    // console.log(data.content)
     const { height: windowHeight, width: windowWidth } = useWindowDimensions();
     const [text, setText] = useState('');
     const [attempt, setAttempt] = useState('1');
@@ -19,7 +19,15 @@ const Game13Screen = ({ data, setLevel }) => {
         try {
             setThinking(true)
             const response = await api.answerTaskSC({task_id: data.id, attempt: attempt, child_id: store.playingChildId.id, answer: answer})
-            if (response && !response.success && !response.to_next) {
+            if (response && response.stars) {
+                setText(response?.hint)
+                playSound(response?.sound)
+                setTimeout(() => {
+                    setStars(response.stars)
+                    setLevel(prev => prev + 1);
+                }, 1500);
+            }
+            else if (response && !response.success && !response.to_next) {
                 setText(response.hint)
                 playSound(response.sound)
                 setAttempt('2')
@@ -51,11 +59,11 @@ const Game13Screen = ({ data, setLevel }) => {
                 <View style={{width: '100%', height: windowHeight * (40 / 360), justifyContent: 'center', alignItems: 'center'}}>
                     <Text style={{color: '#222222', fontWeight: '600', fontSize: windowWidth * (24 / 800)}}>{data.content.question}</Text>
                 </View>
-                <View style={{width: 'auto', gap: 16, height: windowHeight * (80 / 360), alignItems: 'center', flexDirection: 'row', justifyContent: 'center'}}>
+                <View style={{width: 'auto', gap: 16, height: Platform.isPad? windowWidth * (80 / 800) : windowHeight * (80 / 360), alignItems: 'center', flexDirection: 'row', justifyContent: 'center'}}>
                     {data && data.content.options && data.content.options.map((option, index) => {
                         return (
-                            <TouchableOpacity onPress={() => answer({ answer: option.id })} key={index} style={{width: windowWidth * (80 / 800), height: windowHeight * (80 / 360), backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', borderRadius: 10}}>
-                                <Text style={{fontWeight: '600', fontSize: windowWidth * (24 / 800), color: '#D4D1D1'}}>{option.text}</Text>
+                            <TouchableOpacity onPress={() => answer({ answer: option.id })} key={index} style={{width: windowWidth * (80 / 800), height: Platform.isPad? windowWidth * (80 / 800) : windowHeight * (80 / 360), backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', borderRadius: 10}}>
+                                <Text style={{fontWeight: '600', fontSize: windowWidth * (24 / 800), color: 'black'}}>{option.text}</Text>
                             </TouchableOpacity>
                         )
                     })}
@@ -67,7 +75,7 @@ const Game13Screen = ({ data, setLevel }) => {
     return (
         <Animated.View entering={ZoomInEasyDown} style={{top: 24, width: windowWidth - 60, height: windowHeight - 60, position: 'absolute', paddingTop: 50, flexDirection: 'row', justifyContent: 'center'}}>
             <RenderGame13Component />
-            <View style={{width: windowWidth * (255 / 800), position: 'absolute', left: 0, bottom: 0, height: Platform.isPad? windowWidth * (150 / 800) : windowHeight * (80 / 360), alignSelf: 'flex-end', alignItems: 'flex-end', flexDirection: 'row'}}>
+            <View style={{width: windowWidth * (255 / 800), position: 'absolute', left: 0, bottom: 0, height: Platform.isPad? windowWidth * (80 / 800) : windowHeight * (80 / 360), alignSelf: 'flex-end', alignItems: 'flex-end', flexDirection: 'row'}}>
                 <Image source={wisy} style={{width: windowWidth * (64 / 800), height: Platform.isPad? windowWidth * (64 / 800) : windowHeight * (64 / 360), aspectRatio: 64 / 64}}/>
                 <Game3TextAnimation text={text} thinking={thinking}/>
             </View>

@@ -10,6 +10,7 @@ import text from '../images/text.png'
 import NewPasswordModal from "./NewPasswordModal";
 import PopUpModal from "./PopUpModal";
 import { useNavigation } from "@react-navigation/native";
+import store from "../store/store";
 
 const ParentsSettings = () => {
 
@@ -29,11 +30,18 @@ const ParentsSettings = () => {
         }
     })
 
+    const logout = () => {
+        store.setToken(null)
+        // setTimeout(() => {
+        //     navigation.navigate('AuthScreen')
+        // }, 100);
+    }
+
     return (
             <View style={{width: windowWidth * (312 / 360), backgroundColor: 'white', alignItems: 'center', height: windowHeight * (414 / 800), gap: 16}}>
                 <PopUpModal modal={popUpModal} setModal={setPopUpModal}/>
                 <Text style={{width: windowWidth * (312 / 360), height: windowHeight * (24 / 800), fontWeight: '600', fontSize: windowHeight * (16 / 800), lineHeight: windowHeight * (24 / 800)}}>Settings</Text>
-                <View style={{width: windowWidth * (312 / 360), height: windowHeight * (328 / 800), alignItems: 'center', justifyContent: 'space-between'}}>
+                <View style={{width: 'auto', height: windowHeight * (328 / 800), alignItems: 'center', justifyContent: 'space-between', gap: 12}}>
                     <TouchableOpacity style={{width: windowWidth * (312 / 360), height: windowHeight * (56 / 800), backgroundColor: '#F8F8F8', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: windowHeight * (16 / 800), borderRadius: 10, gap: 8}}>
                         <Image source={mail} style={{width: windowHeight * (24 / 800), height: windowHeight * (24 / 800), aspectRatio: 24 / 24}}/>
                         <Text style={{fontSize: windowHeight * (14 / 800), fontWeight: '600', lineHeight: windowHeight * (20 / 800), color: '#222222', width: windowWidth * (216 / 360)}}>Change email</Text>
@@ -61,6 +69,11 @@ const ParentsSettings = () => {
                     <TouchableOpacity onPress={() => navigation.navigate('TextToSpeech')} style={{width: windowWidth * (312 / 360), height: windowHeight * (56 / 800), backgroundColor: '#F8F8F8', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: windowHeight * (16 / 800), borderRadius: 10}}>
                         <Image source={support} style={{width: windowHeight * (24 / 800), height: windowHeight * (24 / 800), aspectRatio: 24 / 24}}/>
                         <Text style={{fontSize: windowHeight * (14 / 800), fontWeight: '600', lineHeight: windowHeight * (20 / 800), color: '#222222', width: windowWidth * (216 / 360)}}>Support</Text>
+                        <Image source={narrowright} style={{width: windowHeight * (24 / 800), height: windowHeight * (24 / 800), aspectRatio: 24 / 24}}/>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => logout()} style={{width: windowWidth * (312 / 360), height: windowHeight * (56 / 800), backgroundColor: '#F8F8F8', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: windowHeight * (16 / 800), borderRadius: 10}}>
+                        <Image source={support} style={{width: windowHeight * (24 / 800), height: windowHeight * (24 / 800), aspectRatio: 24 / 24}}/>
+                        <Text style={{fontSize: windowHeight * (14 / 800), fontWeight: '600', lineHeight: windowHeight * (20 / 800), color: 'red', width: windowWidth * (216 / 360)}}>Logout</Text>
                         <Image source={narrowright} style={{width: windowHeight * (24 / 800), height: windowHeight * (24 / 800), aspectRatio: 24 / 24}}/>
                     </TouchableOpacity>
                 </View>

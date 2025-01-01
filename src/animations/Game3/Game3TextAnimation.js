@@ -15,24 +15,24 @@ const Game3TextAnimation = ({ text, thinking }) => {
                 source={lottie} 
                 loop
                 autoPlay
-                style={{width: 50, height: 40, alignSelf: 'center'}}
+                style={{width: 50, height: 40, alignSelf: 'center', transform: [{ scale: Platform.isPad? 1.5 : 1 }]}}
             />
         )
     }
 
     return (
         <Animated.View
-            key={[text, thinking]} // Обновляем key при изменении текста, чтобы принудить перерисовку и анимацию
+            key={[text, thinking]}
             entering={ZoomInEasyDown}
             style={{
-                width: !thinking? windowWidth * (180 / 800) : windowWidth * (130 / 800),
+                width: !thinking? 'auto' : windowWidth * (130 / 800),
                 height: 'auto',
                 alignSelf: 'flex-start',
                 backgroundColor: thinking? '#C4DF84' : text? '#C4DF84' : 'transparent',
                 borderTopRightRadius: 16,
                 borderTopLeftRadius: 16,
                 borderBottomRightRadius: 16,
-                padding: windowHeight * (12 / 360),
+                padding: Platform.isPad? windowWidth * (12 / 800) : windowHeight * (12 / 360),
                 marginLeft: 10
             }}
         >

@@ -22,77 +22,78 @@ import Game13Screen from './Game13Screen'
 import statStar from '../images/tabler_star-filled.png';
 import CongratulationsScreen from './CongratulationsScreen'
 
-const GameScreen = (params) => {
+const GameScreen = ({ route }) => {
 
-    const tasks = params.route.params.tasks
+    const { tasks, onComplete } = route.params;
     const navigation = useNavigation()
     const [level, setLevel] = useState(0);
+    const [stars, setStars] = useState(0)
 
     const { height: windowHeight, width: windowWidth } = useWindowDimensions();
 
     const RenderVoiceGame = () => {
         return (    
-            <Game1Screen data={tasks[level]} setLevel={setLevel}/>
+            <Game1Screen setStars={setStars} data={tasks[level]} setLevel={setLevel}/>
         )
     }
 
     const RenderWithImageGame = () => {
         return (
-            <Game5Screen data={tasks[level]} setLevel={setLevel}/>
+            <Game5Screen setStars={setStars} data={tasks[level]} setLevel={setLevel}/>
         )
     }
 
     const RenderSimpleGame = () => {
         return (
-            <Game3Screen data={tasks[level]} setLevel={setLevel}/>
+            <Game3Screen setStars={setStars} data={tasks[level]} setLevel={setLevel}/>
         )
     }
 
     const RenderWithAudio = () => {
         return (
-            <Game4Screen data={tasks[level]} setLevel={setLevel}/>
+            <Game4Screen setStars={setStars} data={tasks[level]} setLevel={setLevel}/>
         )
     }
 
     const RenderWithTitleGame = () => {
         return (
-            <Game2Screen data={tasks[level]} setLevel={setLevel}/>
+            <Game2Screen setStars={setStars} data={tasks[level]} setLevel={setLevel}/>
         )
     }
 
     const RenderHandWrittenSimpleGame = () => {
         return (
-            <Game8Screen data={tasks[level]} setLevel={setLevel}/>
+            <Game8Screen setStars={setStars} data={tasks[level]} setLevel={setLevel}/>
         )
     }
 
     const RenderHandWrittenRepeatGame = () => {
         return (
-            <Game10Screen data={tasks[level]} setLevel={setLevel}/>
+            <Game10Screen setStars={setStars} data={tasks[level]} setLevel={setLevel}/>
         )
     }
 
     const RenderHandWrittenCountingGame = () => {
         return (
-            <Game9Screen data={tasks[level]} setLevel={setLevel}/>
+            <Game9Screen setStars={setStars} data={tasks[level]} setLevel={setLevel}/>
         )
     }
 
     const RenderHandWrittenWordGame = () => {
         return (
-            <Game11Screen data={tasks[level]} setLevel={setLevel}/>
+            <Game11Screen setStars={setStars} data={tasks[level]} setLevel={setLevel}/>
         )
     }
 
     const RenderTextSingleChoiceSimpleGame = () => {
         return (
-            <Game13Screen data={tasks[level]} setLevel={setLevel}/>
+            <Game13Screen setStars={setStars} data={tasks[level]} setLevel={setLevel}/>
         )
     }
 
     const RenderTextSingleChoiceWithAudioGame = () => {
         return (
-            <Game12Screen data={tasks[level]} setLevel={setLevel}/>
+            <Game12Screen setStars={setStars} data={tasks[level]} setLevel={setLevel}/>
         )
     }
 
@@ -185,7 +186,7 @@ const GameScreen = (params) => {
 
     return (
         <View style={{flex: 1}}>
-            <ImageBackground source={bg} style={{flex: 1, alignItems: 'center', padding: 30, paddingVertical: Platform.isPad? windowWidth * (40 / 800) : Platform.OS === 'ios'? 25 : 25, width: windowWidth, height: windowHeight, justifyContent: 'space-between'}}>
+            <ImageBackground source={bg} style={{flex: 1, alignItems: 'center', padding: 30, paddingVertical: Platform.isPad? windowWidth * (15 / 800) : Platform.OS === 'ios'? 25 : 25, width: windowWidth, height: windowHeight, justifyContent: 'space-between'}}>
             {
                 tasks && tasks[level] && tasks[level].type ? (
                     tasks[level].type === 'voice_input' ?  
@@ -211,8 +212,8 @@ const GameScreen = (params) => {
                     tasks[level].type === 'text_single_choice' && tasks[level].content.options[0].audio === null && tasks[level].content.options[0].text != ""?
                     <RenderTextSingleChoiceSimpleGame /> : 
                     tasks[level].type === 'text_single_choice' && tasks[level].content.options[0].audio != null || tasks[level].content.options[0].text.includes(" ")?
-                    <RenderTextSingleChoiceWithAudioGame /> : <CongratulationsScreen />
-                ) : <CongratulationsScreen />
+                    <RenderTextSingleChoiceWithAudioGame /> : <CongratulationsScreen stars={stars} onComplete={onComplete}/>
+                ) : <CongratulationsScreen stars={stars} onComplete={onComplete}/>
             }
                 <BackButton />
                 {tasks && tasks[level] && tasks[level].type && <ProgressAnimation />}

@@ -6,8 +6,9 @@ import Game5AnimalsAnimation from '../animations/Game5/Game5AnimalsAnimation'
 import store from '../store/store'
 import api from '../api/api'
 import { playSound } from '../hooks/usePlayBase64Audio'
+import Game2Text1Animation from '../animations/Game2/Game2Text1Animation'
 
-const Game5Screen = ({ data, setLevel }) => {
+const Game5Screen = ({ data, setLevel, setStars }) => {
 
     const { height: windowHeight, width: windowWidth } = useWindowDimensions();
     const [text, setText] = useState(data.content.wisy_question)
@@ -36,7 +37,16 @@ const Game5Screen = ({ data, setLevel }) => {
         try {
             setThinking(true)
             const response = await api.answerTaskSC({task_id: data.id, attempt: attempt, child_id: store.playingChildId.id, answer: answer})
-            if (response && !response.success && !response.to_next) {
+            console.log(response)
+            if (response && response.stars) {
+                setText(response?.hint)
+                playSound(response?.sound)
+                setTimeout(() => {
+                    setStars(response.stars)
+                    setLevel(prev => prev + 1);
+                }, 1500);
+            }
+            else if (response && !response.success && !response.to_next) {
                 setText(response.hint)
                 playSound(response.sound)
                 setAttempt('2')
@@ -60,14 +70,12 @@ const Game5Screen = ({ data, setLevel }) => {
     }
 
     return (
-        <View style={{position: 'absolute', top: 24, width: windowWidth - 60, height: windowHeight - 60}}>
+        <View style={{position: 'absolute', top: 24, width: windowWidth - 60, height: windowHeight - 60, justifyContent: 'center'}}>
             {data && <Game5AnimalsAnimation answer={answer} animal={data.content.question_image} images={data.content.images}/>}
-            <View style={{width: 'auto', height: Platform.isPad? windowWidth * (64 / 800) : 'auto', alignItems: 'center', flexDirection: 'row', position: 'absolute', bottom: 0, left: 0, justifyContent: 'space-between'}}>
-                <View style={{width: 'auto', height: Platform.isPad? windowWidth * (150 / 800) : 'auto', alignSelf: 'center', alignItems: 'flex-end', flexDirection: 'row'}}>
-                    <Image source={wisy} style={{width: windowWidth * (64 / 800), height: Platform.isPad? windowWidth * (64 / 800) : windowHeight * (64 / 360), aspectRatio: 64 / 64}}/>
-                    <View style={{marginBottom: 40}}>
-                        <Game4TextAnimation text={text} thinking={thinking}/>
-                    </View>
+            <View style={{width: 'auto', height: Platform.isPad? windowWidth * (150 / 800) : 'auto', alignSelf: 'center', alignItems: 'flex-end', flexDirection: 'row', position: 'absolute', bottom: 0, left: 0,}}>
+                <Image source={wisy} style={{width: windowWidth * (64 / 800), height: Platform.isPad? windowWidth * (64 / 800) : windowHeight * (64 / 360), aspectRatio: 64 / 64}}/>
+                <View style={{marginBottom: Platform.isPad? windowWidth * (40 / 800) : windowHeight * (70 / 800)}}>
+                    <Game2Text1Animation text={text} thinking={thinking}/>
                 </View>
             </View>
         </View>

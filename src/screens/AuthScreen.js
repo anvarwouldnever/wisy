@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { Keyboard, SafeAreaView, TouchableWithoutFeedback } from "react-native";
 import Logo from "../components/Logo";
 import AuthSignup from "../components/AuthSignup";
 import AuthLogin from "../components/AuthLogin";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import * as ScreenOrientation from 'expo-screen-orientation';
 
 const AuthScreen = ({ route }) => {
 
-    const [authOption, setAuthOption] = useState(route.params.authOption)
+    const [authOption, setAuthOption] = useState(route?.params?.authOption === undefined? 'signup' : route.params.authOption)
     const navigation = useNavigation()
     const proceed = () => {
         
@@ -17,6 +18,15 @@ const AuthScreen = ({ route }) => {
     const playersScreen = (players) => {
         navigation.navigate('ChoosePlayerScreen', {players: players})
     }
+
+    useFocusEffect(
+        useCallback(() => {
+            async function changeScreenOrientation() {
+                await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
+            }
+            changeScreenOrientation();
+        }, [])
+    );
 
     return (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>

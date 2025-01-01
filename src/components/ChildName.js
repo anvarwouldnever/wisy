@@ -1,6 +1,9 @@
 import React from "react";
 import { TextInput, View, Dimensions, Text } from "react-native";
 import Animated, { SlideInRight } from "react-native-reanimated";
+import { useFocusEffect } from "@react-navigation/native";
+import { useCallback } from "react";
+import * as ScreenOrientation from 'expo-screen-orientation';
 
 const { width, height } = Dimensions.get('window');
 

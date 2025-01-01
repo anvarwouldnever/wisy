@@ -27,7 +27,7 @@ const TaskComponent = ({ image, successImage }) => {
             borderWidth: 2,
             borderColor: successImage === 2 && imageLoaded ? '#ADD64D' : 'white',
             padding: 24,
-            position: 'absolute'
+            position: 'absolute',
         }}>
             {imageLoaded ? ( // Показываем анимированное изображение только после загрузки
                 <Animated.Image

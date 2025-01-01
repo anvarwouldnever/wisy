@@ -34,12 +34,12 @@ const Game5AnimalsAnimation = ({ answer, images, animal }) => {
     };
     
     return (
-        <Animated.View key={key} entering={ZoomInEasyDown} style={{ width: windowWidth * (528 / 800), height: windowHeight * (312 / 360), alignSelf: 'center', alignItems: 'center', flexDirection: 'column', justifyContent: 'space-between' }}>
+        <Animated.View key={key} entering={ZoomInEasyDown} style={{ width: windowWidth * (528 / 800), height: Platform.isPad? windowWidth * (312 / 800) : windowHeight * (312 / 360), alignSelf: 'center', alignItems: 'center', flexDirection: 'column', justifyContent: 'space-between' }}>
             {animal ? (
                 isAnimalSvg ? (
                     <SvgUri uri={animal} style={{ width: windowWidth * (244 / 800), height: windowHeight * (152 / 360) }} />
                 ) : (
-                    <Image source={{ uri: animal }} style={{ width: windowWidth * (244 / 800), height: windowHeight * (152 / 360), resizeMode: 'contain' }} />
+                    <Image source={{ uri: animal }} style={{ width: windowWidth * (244 / 800), height: Platform.isPad? windowWidth * (152 / 800) : windowHeight * (152 / 360), resizeMode: 'contain' }} />
                 )
             ) : null}
             <View style={{ height: Platform.isPad ? windowWidth * (120 / 800) : windowHeight * (120 / 360), alignItems: 'center' }}>

@@ -1,15 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useCallback} from "react";
 import { View, Text, SafeAreaView, TouchableOpacity, Dimensions, StyleSheet, useWindowDimensions } from "react-native";
 import Logo from "../components/Logo";
 import SlideShow from "../components/SlideShow";
 import { useNavigation } from "@react-navigation/native";
 import * as Linking from 'expo-linking';
+import { useFocusEffect } from '@react-navigation/native';
+import * as ScreenOrientation from 'expo-screen-orientation';
 
 const { width, height } = Dimensions.get('window');
 
 const WelcomeScreen = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const navigation = useNavigation();
+
+    useFocusEffect(
+        useCallback(() => {
+            async function changeScreenOrientation() {
+                await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
+            }
+            changeScreenOrientation();
+        }, [])
+    );
 
     return (
         <SafeAreaView style={styles.container}>

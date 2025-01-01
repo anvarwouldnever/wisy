@@ -1,4 +1,4 @@
-import { View, Text, FlatList, Image, useWindowDimensions, Button, TouchableOpacity } from 'react-native'
+import { View, Text, FlatList, Image, useWindowDimensions, Button, TouchableOpacity, Platform } from 'react-native'
 import React, { useRef, useState } from 'react'
 import image1 from '../images/game8tutorial1.png'
 import image2 from '../images/game8tutorial2.png'
@@ -37,10 +37,10 @@ const Game8Tutorial = () => {
 
     return (
         <View style={{height: '100%', width: '100%', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-            <TouchableOpacity activeOpacity={currentIndex === 0? 0 : 1} style={{width: width * (40 / 800), height: height * (40 / 360), borderRadius: 100, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', opacity: currentIndex === 0? 0 : 1}} onPress={handlePrevious}>
-                <Image source={arrow1} style={{width: width * (24 / 800), height: height * (24 / 360)}}/>
+            <TouchableOpacity activeOpacity={currentIndex === 0? 0 : 1} style={{width: width * (40 / 800), height: Platform.isPad? width * (40 / 800) : height * (40 / 360), borderRadius: 100, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', opacity: currentIndex === 0? 0 : 1}} onPress={handlePrevious}>
+                <Image source={arrow1} style={{width: width * (24 / 800), height: Platform.isPad? width * (24 / 800) : height * (24 / 360)}}/>
             </TouchableOpacity>
-            <View style={{width: width * (464 / 800), height: height * (272 / 360), backgroundColor: 'white', alignItems: 'center', padding: 20, borderRadius: 16}}>
+            <View style={{width: width * (464 / 800), height: Platform.isPad? width * (272 / 800) : height * (272 / 360), backgroundColor: 'white', alignItems: 'center', padding: 20, borderRadius: 16}}>
                 <FlatList
                     ref={flatListRef}
                     data={data}
@@ -56,8 +56,8 @@ const Game8Tutorial = () => {
                     scrollEnabled={false}
                 />
             </View>
-            <TouchableOpacity activeOpacity={currentIndex === 4? 0 : 1} style={{width: width * (40 / 800), height: height * (40 / 360), borderRadius: 100, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', opacity: currentIndex === 4? 0 : 1}} onPress={handleNext}>
-                <Image source={arrow} style={{width: width * (24 / 800), height: height * (24 / 360)}}/>
+            <TouchableOpacity activeOpacity={currentIndex === 4? 0 : 1} style={{width: width * (40 / 800), height: Platform.isPad? width * (40 / 800) : height * (40 / 360), borderRadius: 100, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center', opacity: currentIndex === 4? 0 : 1}} onPress={handleNext}>
+                <Image source={arrow} style={{width: width * (24 / 800), height: Platform.isPad? width * (24 / 800) : height * (24 / 360)}}/>
             </TouchableOpacity>
         </View>
     )

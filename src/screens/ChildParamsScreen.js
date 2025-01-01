@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Logo from "../components/Logo";
 import { View, Image, Dimensions, TouchableOpacity, ImageBackground, Text, Platform, ActivityIndicator } from "react-native";
-import Animated, { useAnimatedStyle, withTiming } from "react-native-reanimated";
+import Animated, { SlideInRight, useAnimatedStyle, withTiming } from "react-native-reanimated";
 import * as ScreenOrientation from 'expo-screen-orientation';
 import image from '../images/BGimage.png'
 import narrowLeft from '../images/narrowleft.png'
@@ -72,10 +72,10 @@ const ChildParams = () => {
                         </View>
                         <View style={{marginTop: height * (15 / 800), alignItems: 'center'}}>
                             {
-                                focusComponent === 'name' ?
-                                <View style={{width: width, height: height * (180 / 800), alignItems: 'center'}}>
+                                focusComponent === 'name' && ScreenOrientation.Orientation.PORTRAIT_UP ?
+                                <Animated.View key={ScreenOrientation.Orientation} style={{width: width, height: height * (180 / 800), alignItems: 'center'}}>
                                     <ChildName setKeyboardActive={setKeyboardActive} setOptions={setOptions} options={options}/> 
-                                </View>
+                                </Animated.View>
                                 : focusComponent === 'avatar'?
                                 <View style={{width: width, height: height * (360 / 800)}}>
                                     <ChildAvatar /> 
@@ -97,7 +97,7 @@ const ChildParams = () => {
                     </Animated.View>
                     <View style={{justifyContent: 'center', width: width, height: height * (140 / 932)}}>
                         <View style={{justifyContent: 'space-between', paddingHorizontal: 20, width: width, alignItems: 'center', flexDirection: 'row', height: height * (56 / 800)}}>
-                            <TouchableOpacity onPress={() => setFocusComponent(prev => prev === 'avatar'? 'name' : prev === 'age'? 'avatar' : prev === 'gender'? 'age' : prev === 'engtime'? 'gender' : 'name')} style={{width: width * (56 / 360), justifyContent: 'center', alignItems: 'center', height: height * (56 / 800), backgroundColor: '#F8F8F833', borderRadius: 100}}>
+                            <TouchableOpacity onPress={() => setFocusComponent(prev => prev === 'avatar'? 'name' : prev === 'age'? 'avatar' : prev === 'gender'? 'age' : prev === 'engtime'? 'gender' : navigation.navigate('ChoosePlayerScreen'))} style={{width: width * (56 / 360), justifyContent: 'center', alignItems: 'center', height: height * (56 / 800), backgroundColor: '#F8F8F833', borderRadius: 100}}>
                                 <Image source={narrowLeft} style={{width: height * (24 / 800), height: height * (24 / 800),}}/>
                             </TouchableOpacity>
                             {options[focusComponent] === ''?
@@ -106,7 +106,7 @@ const ChildParams = () => {
                                 <Image source={narrow} style={{width: height * (24 / 800), height: height * (24 / 800), aspectRatio: 24 / 24}}/>
                             </TouchableOpacity>
                             :
-                            <TouchableOpacity onPress={focusComponent === 'engtime'? () => addChild() : () => setFocusComponent(prev => prev === 'name'? 'avatar' : prev === 'avatar'? 'age' : prev === 'age'? 'gender' : prev === 'gender'? 'engtime' : 'engtime')} style={{alignItems: 'center', justifyContent: 'center', gap: height * (8 / 800), flexDirection: 'row', padding: height * (16 / 800), width: width * (121 / 360), height: height * (56 / 800), backgroundColor: 'white', borderRadius: 100}}>
+                            <TouchableOpacity onPress={focusComponent === 'engtime' && !loading? () => addChild() : () => setFocusComponent(prev => prev === 'name'? 'avatar' : prev === 'avatar'? 'age' : prev === 'age'? 'gender' : prev === 'gender'? 'engtime' : 'engtime')} style={{alignItems: 'center', justifyContent: 'center', gap: height * (8 / 800), flexDirection: 'row', padding: height * (16 / 800), width: width * (121 / 360), height: height * (56 / 800), backgroundColor: 'white', borderRadius: 100}}>
                                 <Text style={{color: '#504297', fontSize: height * (14 / 800), fontWeight: '600'}}>Continue</Text>
                                 <Image source={narrow} style={{width: height * (24 / 800), height: height * (24 / 800), aspectRatio: 24 / 24}}/>
                             </TouchableOpacity>

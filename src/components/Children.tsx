@@ -28,12 +28,6 @@ function Children({ setChosenPlayer, chosenPlayer }) {
                             </View>
                         )
                     })}
-                    {/* <View style={{width: Platform.isPad? windowWidth * (96 / 800) : windowWidth * (96 / 800), height: Platform.isPad? windowWidth * (136 / 800) : windowHeight * (136 / 360), justifyContent: 'space-between', flexDirection: 'column', alignItems: 'center'}}>
-                        <TouchableOpacity activeOpacity={1} onPress={() => setChosenPlayer(prev => prev === 1? 0 : 1)} style={{width: 'auto', height: 'auto', borderWidth: 3, borderColor: chosenPlayer === 1? '#504297' : '#F4E3F1', borderRadius: 100}}>
-                            <Image source={rabbit} style={{borderWidth: 2, borderColor: 'white', borderRadius: 100, width: Platform.isPad? windowHeight * (96 / 360) : windowWidth * (96 / 800), height: Platform.isPad? windowWidth * (96 / 800) : windowHeight * (96 / 360), aspectRatio: 96 / 96}}/>    
-                        </TouchableOpacity>
-                        <Text style={{color: '#504297', width: 'auto', height: windowHeight * (24 / 360), fontSize: 14, lineHeight: 24, fontWeight: '600', textAlign: 'center'}}>Joseph</Text>
-                    </View> */}
                     <TouchableOpacity onPress={() => navigation.navigate('ChildParamsScreen')} style={{width: Platform.isPad? windowWidth * (96 / 800) : windowWidth * (96 / 800), height: Platform.isPad? windowWidth * (136 / 800) : windowHeight * (136 / 360), justifyContent: 'space-between', flexDirection: 'column', alignItems: 'center'}}>
                         <Image source={plus} style={{width: Platform.isPad? windowHeight * (96 / 360) : windowWidth * (96 / 800), height: Platform.isPad? windowWidth * (96 / 800) : windowHeight * (96 / 360), aspectRatio: 96 / 96}}/>
                         <Text style={{color: '#504297', width: 'auto', height: windowHeight * (24 / 360), fontSize: 14, lineHeight: 24, fontWeight: '600'}}>Add new user</Text>

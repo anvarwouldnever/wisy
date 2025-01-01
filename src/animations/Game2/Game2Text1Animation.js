@@ -33,7 +33,8 @@ const Game2TextAnimation = ({ text, thinking }) => {
                 borderTopLeftRadius: 16,
                 borderBottomRightRadius: 16,
                 padding: windowHeight * (12 / 360),
-                marginLeft: 10
+                marginLeft: 10,
+                // borderWidth: 1
             }}
         >
             {!thinking? <Text

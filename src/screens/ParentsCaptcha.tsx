@@ -5,11 +5,21 @@ import backspace from '../images/tabler_backspace.png'
 import ParentsCancel from "../components/ParentsCancel";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import * as ScreenOrientation from 'expo-screen-orientation';
+import translations from "../../localization";
+import store from "../store/store";
+import { observer } from "mobx-react-lite";
 
-const numberToText = (num) => {
-    const map = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
-    return map[num];
-}
+const numberToText = (num, lang) => {
+    const numberMap = {
+        en: ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'],
+        lv: ['nulle', 'viens', 'divi', 'trīs', 'četri', 'pieci', 'seši', 'septiņi', 'astoņi', 'deviņi'],
+        es: ['cero', 'uno', 'dos', 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho', 'nueve'],
+        fr: ['zéro', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept', 'huit', 'neuf'],
+        ru: ['ноль', 'один', 'два', 'три', 'четыре', 'пять', 'шесть', 'семь', 'восемь', 'девять'],
+    };
+
+    return numberMap[lang] ? numberMap[lang][num] : numberMap['en'][num]; // По умолчанию использовать английский, если язык не найден
+};
 
 const generateRandomNumbers = () => {
     return Array.from({ length: 4 }, () => Math.floor(Math.random() * 10));
@@ -21,12 +31,12 @@ const ParentsCaptcha = () => {
 
     useFocusEffect(
         useCallback(() => {
-            setAnswer([])
-            setError(false)
             async function changeScreenOrientation() {
                 await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
             }
             changeScreenOrientation();
+            setAnswer([])
+            setError(false)
         }, [])
     );
 
@@ -81,9 +91,9 @@ const ParentsCaptcha = () => {
             <ParentsCancel />
             <Image source={lockimage} style={{ marginVertical: windowHeight * (15 / 800), width: windowWidth * (244 / 360), height: windowHeight * (244 / 800), aspectRatio: 1 / 1 }} />
             <View style={{justifyContent: 'space-evenly', alignItems: 'center', width: windowWidth * (312 / 360), height: windowHeight * (166 / 800) }}>
-                <Text style={{ fontWeight: '600', marginBottom: windowHeight * (15 / 800), fontSize: windowHeight * (24 / 800), lineHeight: windowHeight * (24 / 800), textAlign: 'center' }}>Enter the code</Text>
+                <Text style={{ fontWeight: '600', marginBottom: windowHeight * (15 / 800), fontSize: windowHeight * (24 / 800), lineHeight: windowHeight * (24 / 800), textAlign: 'center' }}>{translations[store.language]?.enterTheCode ?? "Enter the code"}</Text>
                 <Text style={{ fontWeight: '600', fontSize: windowHeight * (14 / 800) }}>
-                    {generatedNumbers.map(numberToText).join(' ')}
+                    {generatedNumbers.map(num => numberToText(num, store.language)).join(' ')}
                 </Text>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: windowWidth * (216 / 360), height: windowHeight * (48 / 800), backgroundColor: 'white' }}>
                     {Array(4).fill(0).map((_, idx) => (
@@ -118,4 +128,4 @@ const ParentsCaptcha = () => {
     );
 };
 
-export default ParentsCaptcha;
+export default observer(ParentsCaptcha);
